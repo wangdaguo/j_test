@@ -24,12 +24,22 @@ public class Hero {
     }
 
     public synchronized void recover() {
-        hp = hp+1;
+        hp = hp + 1;
+        System.out.printf("%s 回血1点,增加血后，%s的血量是%.0f%n", name, name, hp);
+        this.notify();
     }
 
-    public void hurt() {
+    public  void hurt() {
         synchronized (this) {
-            hp = hp-1;
+            if (hp == 1) {
+                try {
+                    this.wait();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            hp = hp - 1;
+            System.out.printf("%s 减血1点,减少血后，%s的血量是%.0f%n", name, name, hp);
         }
     }
 }

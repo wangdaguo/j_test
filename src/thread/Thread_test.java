@@ -5,6 +5,40 @@ import java.util.Date;
 
 public class Thread_test {
 
+    public void t_notify() {
+        final Hero garen = new Hero();
+        garen.name = "盖伦";
+        garen.hp = 30;
+
+        Thread t1 = new Thread() {
+            public void run() {
+                while (true) {
+                    garen.hurt();
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        t1.start();
+
+        Thread t2 = new Thread() {
+            public void run() {
+                while (true) {
+                    garen.recover();
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        t2.start();
+    }
+
     public void t_synchronized() {
         final Object someObject = new Object();
         Thread t1 = new Thread() {
@@ -291,7 +325,7 @@ public class Thread_test {
         };
         t1.start();
     }
-    public void t4() {
+    public void t_thread() {
         Hero gareen = new Hero();
         gareen.name = "盖伦";
         gareen.hp = 616;
