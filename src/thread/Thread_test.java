@@ -5,6 +5,56 @@ import java.util.Date;
 
 public class Thread_test {
 
+    public void t_threadPool1() {
+        ThreadPool pool = new ThreadPool(10);
+        for (int i = 0; i < 10; i++) {
+            int finalI = i;
+            pool.addTask(new Runnable() {
+                @Override
+                public void run() {
+                    System.out.printf("one %d\n", finalI);
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+
+        for (int i = 10; i < 20; i++) {
+            int finalJ = i;
+            pool.addTask(new Runnable() {
+                @Override
+                public void run() {
+                    System.out.printf("two %d\n", finalJ);
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+    }
+    public void t_threadPoll() {
+        ThreadPool pool = new ThreadPool(10);
+
+        for (int i = 0; i < 5; i++) {
+            pool.addTask(new Runnable() {
+                @Override
+                public void run() {
+                    System.out.println("hello");
+                }
+            });
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public void t_notify() {
         final Hero garen = new Hero();
         garen.name = "盖伦";

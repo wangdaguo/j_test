@@ -8,6 +8,7 @@ public class Main {
 //        new Thread_test().t4();
 //        new Thread_test().t_join();
 //        new Thread_test().t_synchronized();
-        new Thread_test().t_notify();
+//        new Thread_test().t_threadPoll();
+        new Thread_test().t_threadPool1();
     }
 }
