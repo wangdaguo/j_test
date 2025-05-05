@@ -2,9 +2,32 @@ package thread;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class Thread_test {
 
+    public void t_ThreadPoolExecutor() {
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(10, 15, 60, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>());
+        for (int i = 0; i < 40; i++) {
+            int finalI = i;
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    // Print the task number that the thread pool is executing
+                    System.out.printf("线程池执行任务 %d\n", finalI);
+                    try {
+                        // Sleep for a certain amount of time
+                        Thread.sleep(100*finalI);
+                    } catch (InterruptedException e) {
+                        // Throw a runtime exception if the thread is interrupted
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
+        }
+    }
     public void t_threadPool1() {
         ThreadPool pool = new ThreadPool(10);
         for (int i = 0; i < 10; i++) {
