@@ -1,4 +1,4 @@
-package thread;
+package src.thread;
 
 public class Battle implements Runnable {
     private Hero h1;

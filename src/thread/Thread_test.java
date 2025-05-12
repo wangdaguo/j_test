@@ -1,4 +1,4 @@
-package thread;
+package src.thread;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,6 +8,17 @@ import java.util.concurrent.TimeUnit;
 
 public class Thread_test {
 
+    public void t_ThreadPool123() {
+        new Thread(() -> {
+            System.out.println("123");
+        }).start();
+        new Thread(() -> {
+            System.out.println("456");
+        }).start();
+        new Thread(() -> {
+            System.out.println("789");
+        }).start();
+    }
     public void t_ThreadPoolExecutor() {
         ThreadPoolExecutor executor = new ThreadPoolExecutor(10, 15, 60, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>());
         for (int i = 0; i < 40; i++) {
@@ -28,6 +39,7 @@ public class Thread_test {
             });
         }
     }
+
     public void t_threadPool1() {
         ThreadPool pool = new ThreadPool(10);
         for (int i = 0; i < 10; i++) {
@@ -60,6 +72,7 @@ public class Thread_test {
             });
         }
     }
+
     public void t_threadPoll() {
         ThreadPool pool = new ThreadPool(10);
 

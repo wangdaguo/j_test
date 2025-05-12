@@ -1,4 +1,4 @@
-package thread;
+package src.thread;
 
 public class KillThread extends Thread{
     private Hero h1;
