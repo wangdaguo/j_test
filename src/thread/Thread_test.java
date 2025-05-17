@@ -5,18 +5,73 @@ import java.util.Date;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Thread_test {
 
+    //创建lock对象
+    Lock lock = new ReentrantLock();
+    //新建condition
+    Condition condition1 = lock.newCondition();
+    Condition condition2 = lock.newCondition();
+    Condition condition3 = lock.newCondition();
+
+    private int num = 1;
+
     public void t_ThreadPool123() {
+
         new Thread(() -> {
-            System.out.println("123");
+            for (int i = 0; i < 10; i++) {
+                lock.lock();
+                try {
+                    while (num != 1) {
+                        condition1.await();
+                    }
+                    System.out.println("1");
+                    num = 2;
+                    condition2.signal();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                } finally {
+                    lock.unlock();
+                }
+            }
         }).start();
         new Thread(() -> {
-            System.out.println("456");
+            for (int i = 0; i < 10; i++) {
+                lock.lock();
+                try {
+                    while (num != 2) {
+                        condition2.await();
+                    }
+                    System.out.println("2");
+                    num = 3;
+                    condition3.signal();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                } finally {
+                    lock.unlock();
+                }
+            }
         }).start();
         new Thread(() -> {
-            System.out.println("789");
+            for (int i = 0; i < 10; i++) {
+                lock.lock();
+                try {
+                    while (num != 3) {
+                        condition3.await();
+                    }
+                    System.out.println("3");
+                    num = 1;
+                    condition1.signal();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                } finally {
+                    lock.unlock();
+                }
+            }
         }).start();
     }
     public void t_ThreadPoolExecutor() {
